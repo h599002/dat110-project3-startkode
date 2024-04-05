@@ -44,9 +44,11 @@ public class Util {
 		// if id = 9, then (6 < 9 <= 2) = true
 		
 		// Task: given an identifier, id: check whether pred < id <= node
-		
-		return false;
-
+		if(lower.compareTo(upper) <= 0){ // The normal case when there is no wrap-around
+			return lower.compareTo(id) <= 0 && id.compareTo(upper) <= 0;
+		} else { // when there is wrap-around, separate into
+			return id.compareTo(lower) >= 0 || id.compareTo(upper) <= 0;
+		}
 	}
 	
 	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
