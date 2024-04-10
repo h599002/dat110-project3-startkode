@@ -92,6 +92,7 @@ public class FileManager {
 			} else {
 				node.saveFileContent(filename,hash,bytesOfFile,false);
 			}
+			node.addKey(hash);
 			counter++;
 		}
 
@@ -153,8 +154,11 @@ public class FileManager {
 
 			// use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
 			if(m.isPrimaryServer()){
-
-				return Util.getProcessStub(filename , m.getPort());
+				logger.info("Nodename: " + m.getNodeName());
+				logger.info("Port: " + m.getPort());
+				return Util.getProcessStub(m.getNodeName() , m.getPort());
+			} else {
+				logger.info("IS NOT PRIMARY SERVER");
 			}
 		}
 

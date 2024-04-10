@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import no.hvl.dat110.util.FileManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +32,7 @@ import no.hvl.dat110.util.Util;
 class TestKeys {
 
 	static Map<String, List<BigInteger>> nodeKeys;
+	private static final Logger logger = LogManager.getLogger(FileManager.class);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -104,10 +108,17 @@ class TestKeys {
 			try {
 				List<BigInteger> keysactual = nodeKeys.get(node.getNodeName());
 				Collections.sort(keysactual);
+
 				
 				List<BigInteger> keysexpected = toList(node.getNodeKeys());
 				Collections.sort(keysexpected);
-				
+
+				logger.info("NodeKeys: " + nodeKeys);
+				logger.info("KeysActual: " + keysactual);
+				logger.info("node.getNodeName:" + node.getNodeName());
+				logger.info("node.getNodeKeys: " + node.getNodeKeys());
+				logger.info("keysexpected: " + keysexpected);
+
 				assertArrayEquals(keysexpected.toArray(), keysactual.toArray());			// keys
 				
 			} catch (RemoteException e) {
