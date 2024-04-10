@@ -37,7 +37,7 @@ public class ChordLookup {
 		// get the successor of the node
 		NodeInterface succ = node.getSuccessor();
 		// check that key is a member of the set {nodeid+1,...,succID} i.e. (nodeid+1 <= key <= succID) using the checkInterval
-		if(Util.checkInterval(key,node.getNodeID(),succ.getNodeID())){
+		if(Util.checkInterval(key,node.getNodeID().add(BigInteger.ONE),succ.getNodeID())){
 			// if logic returns true, then return the successor
 			return succ;
 		} else {

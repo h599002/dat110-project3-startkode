@@ -83,9 +83,18 @@ public class FileManager {
     	int counter = 0;
 	
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
-    	
-    	// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
-    	
+    	createReplicaFiles();
+		for(BigInteger hash : replicafiles){
+			NodeInterface node = chordnode.findSuccessor(hash);
+			if(counter == index){
+				// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
+				node.saveFileContent(filename,hash,bytesOfFile,true);
+			} else {
+				node.saveFileContent(filename,hash,bytesOfFile,false);
+			}
+			counter++;
+		}
+
     	// create replicas of the filename
     	
 		// iterate over the replicas
@@ -114,17 +123,19 @@ public class FileManager {
 		activeNodesforFile = new HashSet<Message>(); 
 
 		// Task: Given a filename, find all the peers that hold a copy of this file
-		
+
 		// generate the N replicas from the filename by calling createReplicaFiles()
-		
+		createReplicaFiles();
 		// iterate over the replicas of the file
-		
-		// for each replica, do findSuccessor(replica) that returns successor s.
-		
-		// get the metadata (Message) of the replica from the successor (i.e., active peer) of the file
-		
-		// save the metadata in the set activeNodesforFile.
-		
+		for(BigInteger hash : replicafiles){
+			// for each replica, do findSuccessor(replica) that returns successor s.
+			NodeInterface s = chordnode.findSuccessor(hash);
+			// get the metadata (Message) of the replica from the successor (i.e., active peer) of the file
+			Message m = s.getFilesMetadata(hash);
+			// save the metadata in the set activeNodesforFile.
+			activeNodesforFile.add(m);
+		}
+
 		return activeNodesforFile;
 	}
 	
@@ -137,11 +148,16 @@ public class FileManager {
 		// Task: Given all the active peers of a file (activeNodesforFile()), find which is holding the primary copy
 		
 		// iterate over the activeNodesforFile
-		
-		// for each active peer (saved as Message)
-		
-		// use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
-		
+		for(Message m : activeNodesforFile){
+			// for each active peer (saved as Message)
+
+			// use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
+			if(m.isPrimaryServer()){
+
+				return Util.getProcessStub(filename , m.getPort());
+			}
+		}
+
 		// return the primary when found (i.e., use Util.getProcessStub to get the stub and return it)
 		
 		return null; 
