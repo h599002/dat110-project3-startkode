@@ -113,12 +113,6 @@ class TestKeys {
 				List<BigInteger> keysexpected = toList(node.getNodeKeys());
 				Collections.sort(keysexpected);
 
-				logger.info("NodeKeys: " + nodeKeys);
-				logger.info("KeysActual: " + keysactual);
-				logger.info("node.getNodeName:" + node.getNodeName());
-				logger.info("node.getNodeKeys: " + node.getNodeKeys());
-				logger.info("keysexpected: " + keysexpected);
-
 				assertArrayEquals(keysexpected.toArray(), keysactual.toArray());			// keys
 				
 			} catch (RemoteException e) {
