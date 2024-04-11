@@ -86,7 +86,6 @@ class TestMutex {
 		Collections.sort(e);
 		
 		System.out.println(replies+"|"+e);
-		
 		assertArrayEquals(e.toArray(), replies.toArray());
 	}
 	

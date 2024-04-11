@@ -154,11 +154,7 @@ public class FileManager {
 
 			// use the primaryServer boolean variable contained in the Message class to check if it is the primary or not
 			if(m.isPrimaryServer()){
-				logger.info("Nodename: " + m.getNodeName());
-				logger.info("Port: " + m.getPort());
 				return Util.getProcessStub(m.getNodeName() , m.getPort());
-			} else {
-				logger.info("IS NOT PRIMARY SERVER");
 			}
 		}
 
